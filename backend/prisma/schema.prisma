@@ -1,0 +1,62 @@
+// backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id       String        @id @default(uuid())
+  username String        @unique
+  password String
+  files    LogicalFile[]
+  folders  Folder[]      // <--- NEW: Folders
+}
+
+model Folder {
+  id        String        @id @default(uuid())
+  name      String
+  isPublic  Boolean       @default(false) // <--- ADD THIS LINE
+  createdAt DateTime      @default(now())
+  
+  owner     User          @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  
+  parent    Folder?       @relation("FolderHierarchy", fields: [parentId], references: [id])
+  parentId  String?
+  children  Folder[]      @relation("FolderHierarchy")
+
+  files     LogicalFile[] // <--- Folder contains files
+}
+
+model PhysicalFile {
+  id           String        @id @default(uuid())
+  hash         String        @unique
+  size         Int
+  path         String
+  refCount     Int           @default(1)
+  createdAt    DateTime      @default(now())
+  logicalFiles LogicalFile[]
+}
+
+model LogicalFile {
+  id               String       @id @default(uuid())
+  filename         String
+  isPublic         Boolean      @default(false)
+  downloadCount    Int          @default(0) // <--- NEW: Download Counter
+  createdAt        DateTime     @default(now())
+  deletedAt        DateTime?
+  
+  owner            User         @relation(fields: [ownerId], references: [id])
+  ownerId          String
+  
+  physicalFile     PhysicalFile @relation(fields: [physicalFileHash], references: [hash])
+  physicalFileHash String
+
+  folder           Folder?      @relation(fields: [folderId], references: [id]) // <--- NEW: Folder link
+  folderId         String?
+}
