@@ -1,4 +1,3 @@
-// frontend/src/components/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Lock, User, ArrowRight, Loader2 } from 'lucide-react';

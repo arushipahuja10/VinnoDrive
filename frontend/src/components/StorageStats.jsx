@@ -1,4 +1,3 @@
-// frontend/src/components/StorageStats.jsx
 import React from 'react';
 import { HardDrive, Server, Zap } from 'lucide-react';
 

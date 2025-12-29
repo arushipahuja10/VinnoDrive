@@ -14,13 +14,13 @@ model User {
   username String        @unique
   password String
   files    LogicalFile[]
-  folders  Folder[]      // <--- NEW: Folders
+  folders  Folder[]
 }
 
 model Folder {
   id        String        @id @default(uuid())
   name      String
-  isPublic  Boolean       @default(false) // <--- ADD THIS LINE
+  isPublic  Boolean       @default(false) 
   createdAt DateTime      @default(now())
   
   owner     User          @relation(fields: [ownerId], references: [id])
@@ -30,7 +30,7 @@ model Folder {
   parentId  String?
   children  Folder[]      @relation("FolderHierarchy")
 
-  files     LogicalFile[] // <--- Folder contains files
+  files     LogicalFile[]
 }
 
 model PhysicalFile {
@@ -47,7 +47,7 @@ model LogicalFile {
   id               String       @id @default(uuid())
   filename         String
   isPublic         Boolean      @default(false)
-  downloadCount    Int          @default(0) // <--- NEW: Download Counter
+  downloadCount    Int          @default(0)
   createdAt        DateTime     @default(now())
   deletedAt        DateTime?
   
@@ -57,6 +57,6 @@ model LogicalFile {
   physicalFile     PhysicalFile @relation(fields: [physicalFileHash], references: [hash])
   physicalFileHash String
 
-  folder           Folder?      @relation(fields: [folderId], references: [id]) // <--- NEW: Folder link
+  folder           Folder?      @relation(fields: [folderId], references: [id])
   folderId         String?
 }

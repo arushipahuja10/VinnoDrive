@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(cors({
-    origin: '*', // For simplicity in this demo, allow all. In pro, set to Vercel URL.
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -24,6 +24,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api', uploadRoutes);
 
 // Start Server
-app.listen(PORT, '0.0.0.0'() => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

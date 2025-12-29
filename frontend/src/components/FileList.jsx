@@ -1,4 +1,3 @@
-// frontend/src/components/FileList.jsx
 import React, { useState } from 'react';
 import { FileText, Trash2, Globe, Lock, Download, User, Archive, Search, Eye, RotateCcw, FolderPlus, Folder, ChevronLeft, Package } from 'lucide-react';
 
@@ -45,14 +44,14 @@ const FileList = ({ files, onDelete, onRestore, onToggleShare, isPublicView, isT
     if (name) onCreateFolder(name);
   };
 
-  // --- DRAG AND DROP HANDLERS ---
+  // DRAG AND DROP HANDLERS 
   const handleDragStart = (e, fileId) => {
       e.dataTransfer.setData("fileId", fileId);
   };
 
   const handleDragOver = (e) => {
-      e.preventDefault(); // Allow Drop
-      e.currentTarget.classList.add('bg-vinno-primary/10'); // Highlight
+      e.preventDefault();
+      e.currentTarget.classList.add('bg-vinno-primary/10'); 
   };
 
   const handleDragLeave = (e) => {
@@ -67,7 +66,6 @@ const FileList = ({ files, onDelete, onRestore, onToggleShare, isPublicView, isT
           onMoveFile(fileId, folderId);
       }
   };
-  // ------------------------------
 
   if (files.length === 0 && !searchTerm) {
     return (

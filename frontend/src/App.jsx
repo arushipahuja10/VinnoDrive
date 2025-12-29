@@ -1,4 +1,3 @@
-// frontend/src/App.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
@@ -42,7 +41,6 @@ function App() {
         const res = await axios.get(`${API_BASE}/files?trash=true`);
         setFiles(res.data);
       } else {
-        // CHANGED: Pass folderId to public route to allow navigation inside public folders
         const res = await axios.get(`${API_BASE}/files/public?folderId=${folderId}`);
         setFiles(res.data);
       }
@@ -77,11 +75,10 @@ function App() {
     }
   };
 
-  // NEW: Handle Drag & Drop File Move
   const handleMoveFile = async (fileId, targetFolderId) => {
       try {
           await axios.put(`${API_BASE}/files/${fileId}/move`, { folderId: targetFolderId });
-          fetchData(); // Refresh to show file moved
+          fetchData(); 
       } catch (err) {
           console.error("Move failed", err);
       }
@@ -226,7 +223,7 @@ function App() {
         onCreateFolder={handleCreateFolder}
         onFolderClick={handleFolderClick}
         onGoBack={handleGoBack}
-        onMoveFile={handleMoveFile} // <--- Pass down the move function
+        onMoveFile={handleMoveFile}
         currentFolder={currentFolder}
         isPublicView={view === 'public'}
         isTrashView={view === 'trash'}
