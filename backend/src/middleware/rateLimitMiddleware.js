@@ -6,7 +6,12 @@ const apiLimiter = rateLimit({
     message: { error: "Rate limit exceeded. Please slow down." },
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.user ? req.user.id : req.ip
+    keyGenerator: (req) => req.user ? req.user.id : req.ip,
+
+    validate: {
+        xForwardedForHeader: false,
+        trustProxy: false // Disables the crash-causing validation
+    }
 });
 
 module.exports = apiLimiter;
