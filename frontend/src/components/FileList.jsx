@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FileText, Trash2, Globe, Lock, Download, User, Archive, Search, Eye, RotateCcw, FolderPlus, Folder, ChevronLeft, Package } from 'lucide-react';
-
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 const formatBytes = (bytes) => {
   if (bytes === 0) return '0 B';
   const k = 1024;
@@ -28,7 +28,7 @@ const FileList = ({ files, onDelete, onRestore, onToggleShare, isPublicView, isT
     const link = document.createElement('a');
     // If folder, use folder download route (Zip), else file download route
     const route = type === 'folder' ? 'folders' : 'files';
-    link.href = `http://localhost:3000/api/${route}/${id}/download?token=${token}`;
+    link.href = `${API_BASE}/${route}/${id}/download?token=${token}`;
     link.setAttribute('download', ''); 
     document.body.appendChild(link);
     link.click();
@@ -36,7 +36,7 @@ const FileList = ({ files, onDelete, onRestore, onToggleShare, isPublicView, isT
   };
 
   const handleQuickLook = (id) => {
-    window.open(`http://localhost:3000/api/files/${id}/preview?token=${token}`, '_blank');
+    window.open(`${API_BASE}/files/${id}/preview?token=${token}`, '_blank');
   };
 
   const handleCreateFolder = () => {
